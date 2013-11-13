@@ -1,0 +1,118 @@
+FORMAT: 1A
+
+# OAP Seller API v1
+
+The **Open Advertising Protocol** is a [RESTful protocol](https://en.wikipedia.org/wiki/Representational_state_transfer) to enable programmatic direct 
+buying and selling of advertising inventory.
+
+The OAP Seller API describes the services that a seller server provides to a buyer client
+within the Open Advertising Protocol. 
+
+This version 1.0 is an [MVP (minimum viable product)](http://en.wikipedia.org/wiki/Minimum_viable_product) implementation of the Open Advertising Protocol. 
+It currently enables you to access the seller's catalog of advertising programs and to place and maintain orders.
+
+This API is complemented by the [OAP Buyer API](http://docs.oapbuyerapi.apiary.io/). All comments can be written in [Markdown](http://daringfireball.net/projects/markdown/syntax) syntax.
+
+# Group Programs
+
+This resource enables you to access the seller's catalog of advertising programs. With it, you can 
+get a listing of the advertising progams and to view the details of each. 
+
+## Programs Collection [/programs{?q,created,updated}]
+This resource represents the seller's collection of advertising programs.
+
++ Model (application/json)
+
+        { "programs": "a collection of advertising programs in application/json or application/xml format"}
+
+### List All Programs [GET]
+Returns Programs from the seller's catalog. If no parameters are provided, all Programs are returned.
+
++ Parameters
+    + q (optional, string, `electric vehicle`) ... for full text search, the query string
+    + created (optional, string, `2013-11-13T10:25:13Z`) ... Only Programs created at or after this time are returned. Timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ` 
+    + updated (optional, string, `2013-11-13T10:25:13Z`) ... Only Programs updated at or after this time are returned. Timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ` 
+    
+
++ Response 200
+
+    [Programs Collection][]
+    
+## Program [/programs/{id}]
+This resource represents one particular advertising program identified by its *id*.
+
++ Parameters
+    + id (required, string, `1001`) ... The unique identifier of the Advertising Program.
+    
++ Model
+
+        { "program": "an advertising program in application/json or application/xml format"}
+
+### Retrieve a single Program [GET]
+Retrieve a program by its *id*.
+
++ Response 200
+
+    [Program][]
+
+# Group Orders
+
+This resource enables you to place and maintain your orders with the seller.
+
+## Order [/orders/{id}]
+This resource represents one particular order identified by its *id*.
+
++ Parameters
+    + id (required, string, `1001`) ... The seller's unique identifier for the Order.
+    
++ Model
+
+        { "order": "an order in application/json or application/xml format"}
+    
+### Retrieve a single Order [GET]
+Retrieve order by its *id*.
+
++ Response 200
+
+    [Order][]
+
+### Update an Order [PUT]
+Update an existing order.
+
++ Response 204
+
+### Delete an Order [DELETE]
+Delete an order.
+
++ Response 204
+
+## Orders Collection [/orders{?q,created,updated}]
+This resource represents your set of orders with this seller.
+
++ Model (application/json)
+
+        { "orders": "a collection of orders in application/json or application/xml format"}
+
+### List All Orders [GET]
+Returns a collection of orders you've placed with this seller. If no parameters are provided, all your Orders are returned.
+
++ Parameters
+    + q (optional, string, `tesla spring`) ... for full text search, the query string
+    + created (optional, string, `2013-11-13T10:25:13Z`) ... Only Programs created at or after this time are returned. Timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ` 
+    + updated (optional, string, `2013-11-13T10:25:13Z`) ... Only Programs updated at or after this time are returned. Timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ` 
+    
+
++ Response 200
+
+    [Programs Collection][]
+
+### Create a new Order [POST]
+This places a new Order with the seller. Returns the newly created Order with a unique ID assigned by the Seller.
+
++ Request 
+
+    [Order][]
+
++ Response 201
+
+    [Order][]
